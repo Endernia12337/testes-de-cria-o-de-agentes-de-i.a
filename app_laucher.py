@@ -2,7 +2,7 @@ import subprocess
 from groq import Groq
 import os
 import dotenv
-dotenv.load_dotenv(r"C:\Users\RT\Desktop\trabalhos\codigos em andamento\A.I\jarvis\testes-de-cria-o-de-agentes-de-i.a\.env")
+dotenv.load_dotenv(".env")
 # Configuração mínima
 API = os.getenv("CHAVE_API")
 client = Groq(api_key=API)

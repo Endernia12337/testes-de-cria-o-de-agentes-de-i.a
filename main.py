@@ -1,90 +1,90 @@
 import random
 from windows_manage import WindowsManager
 
-#TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por exemplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
+#TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por execute_commandmplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
 
-class agent:
+class Agent:
     def __init__(self):
-        self.context = {
-            "ultimo_app" : None,
-        }
-
         self.Wm = WindowsManager() #criando o objeto que modifica o windows
 
         # criando condicionais para separação correta da frase
-        self.comprimentar = ["ok senhor", "com certeza"]
-        self.conectores = ("e", "depois", "em seguida")
-        self.ignorar = ("o", "a")
+        self.greet = ["ok senhor", "com certeza"]
+        self.conect = ("e", "depois", "em seguida")
+        self.ignore = ("o", "a")
 
         #criando memoria e comandos
         self.memory = {
-            "lass_command" : None,
-            "lass_app" : None,
+            "last_command" : None,
+            "last_app" : None,
         }
-        self.comandos = {
-        "abri" : self.abrir,
-        "abrir" : self.abrir,
-        "iniciar" : self.abrir,
-        "fechar" : self.fechar,
-        "mover" : self.mover,
+        self.commands = {
+        "abri" : self.open_app,
+        "abrir" : self.open_app,
+        "iniciar" : self.open_app,
+        "fechar" : self.close_app,
+        "mover" : self.move_item,
         }
 
-    def abrir (self,target:list):
-        self.Wm.open_window(program=target)
-    def fechar (self,target):
+    def open_app (self,target):
+        self.Wm.open_window(target)
+        self.memory["last_app"] = target
+    def close_app (self,target):
         print (f"fechando {target}")
-        self.context["ultimo_app"] = target
-    def mover (self,target_local_new: list):
+        self.context["last_app"] = target
+    def move_item (self,target_local_new: list):
         print (f"{target_local_new[0]} movido de {target_local_new[1]}, para {target_local_new[2]}")
 
-    def exe(self,command : str, args : list[str]) -> None:
-        print(random.choice(self.comprimentar))
 
-        if len(args) < 1: # se args estiver vazio ele retorna 
+
+    def execute_command(self,execute : dict) -> None:
+        print(random.choice(self.greet))
+
+        if len(execute) < 1: # se args estiver vazio ele retorna 
             print("ERRO: parametros nn estabelecidos")
             return
-        if len(args) == 1:
-            self.comandos[command](args[0])
-
-        if len(args) > 1:
-            for i in args:
-                self.comandos[command](i)
-                # print(type(i))
+        
+        for i in execute:
+            print(self.commands[i], execute[i])
         
 
-    def separador(self,cmd) -> list:
-        cmd = [i.replace(",", "") for i in cmd if i not in self.ignorar]
-        command = None
-        args = [] 
+    def parser_input(self,cmd) -> list:
+        cmd = [i.replace(",", "") for i in cmd if i not in self.ignore]
+        command = []
+        args = []
 
-        for i in cmd:
-            if i in self.comandos: #* i é um comandos
-                if self.memory["lass_command"]:
-                    command = self.memory["lass_command"]
-                else:
-                    command = i
-                    self.memory["lass_command"] = i
+
+        for idx, i in enumerate(cmd):
+            if i in self.commands: #* i é um comandos
+                command.append(i)
+                self.memory["last_command"] = i
                 continue
 
+            elif not command and self.memory["last_command"]:
+                command.append(self.memory["last_command"])
+                continue
             #* i é um conector
-            if i in self.conectores:
+            elif i in self.conect:
                 continue
 
             else: #* i é um app
-                if self.memory["lass_command"]:
+                if  self.memory["last_command"]:
+                    command.append(self.memory["last_command"])
                     args.append(i)
-                    self.memory["lass_app"] = i
+                    self.memory["last_app"] = i
 
-        print(f"{cmd=}, {command=}, {args=}")
-        return command, args
+
+        execute = dict(zip(command,args)) #! corrigir erro, so volta o ultimo comando e ultimo argumento -> possivel falha: ele roda o codigo e limpa a lista  de command e args
+                                           #? testar coloco command e args no __init__ ou/e o execute
+        print(execute)
+        return execute
     
 
-Agent = agent()
+agent = Agent()
 
 
 # user_input = input("oq vc gostaria de fazer? ")
-user_input = "abrir o chrome"
+user_input = "abrir o chrome e vscode e depois spotify"
 cmd = user_input.lower().split()
 
-# Agent.separador(cmd)
-Agent.exe(*Agent.separador(cmd))
+# agent.execute_command(*agent.parser_input(cmd))
+agent.parser_input(cmd)

@@ -62,5 +62,6 @@ class WindowsManager:
                 for i in matches.keys():
                     if command in i.lower():
                         win32gui.SetForegroundWindow(matches[i])
+                        op = True
                         return
                 print("não entendi poderia repetir?")
