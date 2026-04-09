@@ -7,7 +7,7 @@ class WindowsManager:
     """
     def __init__(self):
         self.windows = {}
-        self.num = 0
+        self.num = 1
         self.Al = AppLaucher()
         pass
     
@@ -28,7 +28,7 @@ class WindowsManager:
         return list of windows open at the moment
         """
         self.windows.clear()
-        self.num = 0
+        self.num = 1
         win32gui.EnumWindows(self._windows_update,None)
         return self.windows
     
@@ -65,3 +65,15 @@ class WindowsManager:
                         op = True
                         return
                 print("não entendi poderia repetir?")
+
+    def close_window(self, program : str):
+        windows = self.windows_on
+
+        for titulo,handle in windows.values():
+            print(f"window: {titulo}; handle: {handle}")
+            if program.lower() in titulo.lower():
+                ...
+
+if __name__ == "__main__":    
+    Wm = WindowsManager()
+    Wm.close_window("chrome")

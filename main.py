@@ -29,38 +29,30 @@ class Agent:
         self.Wm.open_window(target)
         self.memory["last_app"] = target
     def close_app (self,target):
+        # self.Wm.close_window(target)
         print (f"fechando {target}")
-        self.context["last_app"] = target
-    def move_item (self,target_local_new: list):
-        print (f"{target_local_new[0]} movido de {target_local_new[1]}, para {target_local_new[2]}")
+    def move_item (self,target, local, new):
+        print (f"{target} movido de {local}, para {new}")
 
 
-
-    def execute_command(self,execute : dict) -> None:
+    def execute_command(self,execute : list | NameError) -> None:
         print(random.choice(self.greet))
 
         if len(execute) < 1: # se args estiver vazio ele retorna 
             print("ERRO: parametros nn estabelecidos")
             return
         
-        for i in execute:
-            print(self.commands[i], execute[i])
+        for i in execute: # exemple -> [('abrir', 'chrome'),('fechar', 'spotify')] -> i == ('abrir', 'chrome')
+            self.commands[i[0]](i[1]) #exemple -> self.commands['abrir']('chrome') -> open_app(target='chrome')
         
 
     def parser_input(self,cmd) -> list:
         cmd = [i.replace(",", "") for i in cmd if i not in self.ignore]
-        command = []
-        args = []
+        list_commands = []
 
-
-        for idx, i in enumerate(cmd):
+        for i in cmd:
             if i in self.commands: #* i é um comandos
-                command.append(i)
                 self.memory["last_command"] = i
-                continue
-
-            elif not command and self.memory["last_command"]:
-                command.append(self.memory["last_command"])
                 continue
             #* i é um conector
             elif i in self.conect:
@@ -68,23 +60,18 @@ class Agent:
 
             else: #* i é um app
                 if  self.memory["last_command"]:
-                    command.append(self.memory["last_command"])
-                    args.append(i)
                     self.memory["last_app"] = i
+                    list_commands.append((self.memory["last_command"], self.memory["last_app"]))
 
-
-        execute = dict(zip(command,args)) #! corrigir erro, so volta o ultimo comando e ultimo argumento -> possivel falha: ele roda o codigo e limpa a lista  de command e args
-                                           #? testar coloco command e args no __init__ ou/e o execute
-        print(execute)
-        return execute
+        return  list_commands
     
 
 agent = Agent()
 
 
-# user_input = input("oq vc gostaria de fazer? ")
-user_input = "abrir o chrome e vscode e depois spotify"
+user_input = input("oq vc gostaria de fazer? ")
+# user_input = "abrir chrome e fechar spotify"
 cmd = user_input.lower().split()
 
-# agent.execute_command(*agent.parser_input(cmd))
-agent.parser_input(cmd)
+agent.execute_command(agent.parser_input(cmd))
+# agent.parser_input(cmd)
