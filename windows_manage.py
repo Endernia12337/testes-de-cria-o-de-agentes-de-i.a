@@ -1,5 +1,6 @@
 import win32gui
 from app_laucher import AppLaucher
+from erros import Erros
 
 class WindowsManager:
     """
@@ -49,8 +50,10 @@ class WindowsManager:
             win32gui.SetForegroundWindow(list(matches.values())[0]) #* se for apenas 1 abre direto
 
         elif not matches: #* se nn existir cria nova instancia desse app
-            self.Al.start_app(program)
-
+            try:
+                self.Al.start_app(program)
+            except:
+                return False
         else: #* se existir mais de 1 pergunta qual quer abrir
             print("==================================================== ")
             for i in matches.keys():
@@ -63,8 +66,10 @@ class WindowsManager:
                     if command in i.lower():
                         win32gui.SetForegroundWindow(matches[i])
                         op = True
-                        return
+                        break
                 print("não entendi poderia repetir?")
+            print("ok senhor")
+        return True
 
     def close_window(self, program : str):
         windows = self.windows_on

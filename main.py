@@ -1,5 +1,6 @@
 import random
 from windows_manage import WindowsManager
+from erros import Erros
 
 #TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por execute_commandmplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
 class Agent:  
@@ -29,8 +30,9 @@ class Agent:
         }
 
     def open_app (self,target):
-        self.Wm.open_window(target)
-        self.memory["last_app"] = target
+        if not self.Wm.open_window(target):
+            Erros.app_not_found(target)
+            self.memory["last_app"] = target
     def close_app (self,target):
         # self.Wm.close_window(target)
         print (f"fechando {target}")
@@ -41,9 +43,8 @@ class Agent:
     def execute_command(self,execute) -> None:
         print(random.choice(self.greet))
 
-        if len(execute) < 1 or execute == None: # se args estiver vazio ele retorna 
-            print("ERRO: parametros nn estabelecidos")
-            return
+        if len(execute) < 1: # se args estiver vazio ele retorna 
+            return Erros.missing_args("execute_command")
         
         for i in execute: # exemple -> [('abrir', 'chrome'),('fechar', 'spotify')] -> i == ('abrir', 'chrome')
             self.commands[i[0]](i[1]) #exemple -> self.commands['abrir']('chrome') -> open_app(target='chrome')
@@ -76,7 +77,8 @@ class Agent:
 agent = Agent()
 
 
-user_input = input("oq vc gostaria de fazer? ")
+# user_input = input("oq vc gostaria de fazer? ")
+user_input = "abrir chrome"
 cmd = user_input.lower().split()
 
 agent.execute_command(agent.parser_input(cmd))
