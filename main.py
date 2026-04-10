@@ -2,8 +2,7 @@ import random
 from windows_manage import WindowsManager
 
 #TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por execute_commandmplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
-
-class Agent:
+class Agent:  
     def __init__(self):
         self.Wm = WindowsManager() #criando o objeto que modifica o windows
 
@@ -16,6 +15,10 @@ class Agent:
         self.memory = {
             "last_command" : None,
             "last_app" : None,
+        }
+        self.context = {
+            "ele" : self.memory["last_app"]
+
         }
         self.commands = {
         "abri" : self.open_app,
@@ -35,10 +38,10 @@ class Agent:
         print (f"{target} movido de {local}, para {new}")
 
 
-    def execute_command(self,execute : list | NameError) -> None:
+    def execute_command(self,execute) -> None:
         print(random.choice(self.greet))
 
-        if len(execute) < 1: # se args estiver vazio ele retorna 
+        if len(execute) < 1 or execute == None: # se args estiver vazio ele retorna 
             print("ERRO: parametros nn estabelecidos")
             return
         
@@ -47,21 +50,25 @@ class Agent:
         
 
     def parser_input(self,cmd) -> list:
+        corrent_command = None
         cmd = [i.replace(",", "") for i in cmd if i not in self.ignore]
         list_commands = []
 
         for i in cmd:
             if i in self.commands: #* i é um comandos
-                self.memory["last_command"] = i
+                corrent_command = i
                 continue
             #* i é um conector
             elif i in self.conect:
                 continue
 
             else: #* i é um app
-                if  self.memory["last_command"]:
-                    self.memory["last_app"] = i
-                    list_commands.append((self.memory["last_command"], self.memory["last_app"]))
+                if corrent_command:
+                    list_commands.append((corrent_command, i))
+                else:
+                    continue
+                    
+
 
         return  list_commands
     
@@ -70,8 +77,7 @@ agent = Agent()
 
 
 user_input = input("oq vc gostaria de fazer? ")
-# user_input = "abrir chrome e fechar spotify"
 cmd = user_input.lower().split()
 
 agent.execute_command(agent.parser_input(cmd))
-# agent.parser_input(cmd)
+# print(agent.parser_input(cmd))
