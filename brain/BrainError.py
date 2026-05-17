@@ -82,3 +82,18 @@ class DecisionError(BrainError):
             message += f' -> <{error}>'
 
         super().__init__(message)
+class ValidationError(BrainError):
+    def __init__(self, field, expected=None, received=None, operation=None):
+
+        message = f'<ValidationError>: invalid structure in "{field}"'
+
+        if expected:
+            message += f' | expected: <{expected}>'
+
+        if received:
+            message += f' | received: <{received}>'
+
+        if operation:
+            message += f' during "{operation}"'
+
+        super().__init__(message)

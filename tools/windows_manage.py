@@ -1,5 +1,5 @@
 import win32gui
-from app_laucher import AppLaucher
+from tools.app_laucher import AppLaucher
 
 class WindowsManager:
     """

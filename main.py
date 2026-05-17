@@ -1,10 +1,12 @@
 from core.DecisionEngine import DecisionEngine
 from core.AgenteEnginer import AgentEnginer
+
+#mudar depois para configuraçoes padroes
 from memory.criar_essa_porrinha import arrumar
 
 
 import random
-user_profile = r"user_vectors.json"
+user_profile = r"data/user_vectors.json"
 # MemorySystem.save(user_profile, {
 #             "aprendizado": 0.5,
 #             "entretenimento": 0.5,
@@ -24,6 +26,7 @@ interacoes = 1
 i = 1
 
 while i <= users:
+    arrumar() # reset para a proxima interação nn afetar a anterior
     print(f"=============================================")
     user1 = DecisionEngine(user_profile)
     print(f"user number {i}")
@@ -37,5 +40,4 @@ while i <= users:
         j += 1
 
     print("=======================================")
-    arrumar()
     i += 1

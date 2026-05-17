@@ -1,25 +1,24 @@
 from memory.MemorySystem import MemorySystem
-from brain.BrainError import InvalidActionError,MemoryError,ActionTrackerError
+from brain.BrainError import InvalidActionError,MemoryError,ActionTrackerError,ValidationError
 class ActionTracker:
     def __init__(self) -> None:
         self.count_file = r"data/action_counts.json" # ela define pois esses arquivos são usados so por ela, se eu senti necessario depois programo outra forma dela acessar 
         self.historic_file = r"data/recent_actions.json"
 
-        self.error_count = False 
-        self.error_historic = False
+        self.error_count = None 
+        self.error_historic = None
 
         self.memory = MemorySystem()
-        self.validation()
-
+        self._load_memory()
+        self._validate_memory()
     
-    def validation(self): #mudar nome futuramente
+    def _load_memory(self): #mudar nome futuramente
         try:
             self.count = self.memory.load( self.count_file)
         except MemoryError as e: 
             self.count = {}
             self.error_count = e 
             print(e)
-            
         except Exception as e:
             print(e)
             self.error_count = e 
@@ -33,8 +32,30 @@ class ActionTracker:
         except Exception as e:
             print(e)
             self.error_historic = e
+        
+    def _validate_memory(self):
+        if not isinstance(self.count, dict):
+            self.error_count = ValidationError(
+                field="count",
+                expected="dict",
+                received=type(self.count).__name__,
+                operation="_validate_memory"
+            )
 
+            print(self.error_count)
+            self.count = {}
 
+        if not isinstance(self.historic, list):
+            self.error_historic = ValidationError(
+                field="historic",
+                expected="list",
+                received=type(self.historic).__name__,
+                operation="_validate_memory"
+            )
+
+            print(self.error_historic)
+            self.historic = []
+        
     def get_count(self, action_name):
         if self.error_count:
             raise ActionTrackerError(f"erro count :{self.error_count}","get_count") # temporario, so para debug proovavelmente aq vai um actionTracker ou so um return
@@ -69,3 +90,4 @@ if __name__ == '__main__':
         print(actiontracker.get_count("jogar_valorant"))
     except Exception as e:
         print(e) 
+        
