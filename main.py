@@ -1,84 +1,41 @@
+from core.DecisionEngine import DecisionEngine
+from core.AgenteEnginer import AgentEnginer
+from memory.criar_essa_porrinha import arrumar
+
+
 import random
-from tools.windows_manage import WindowsManager
+user_profile = r"user_vectors.json"
+# MemorySystem.save(user_profile, {
+#             "aprendizado": 0.5,
+#             "entretenimento": 0.5,
+#             "musica": 0.5,
+#             "programacao": 0.5,
+#             "fps": 0.5,
+#             "estrategia": 0.5,
+#             "rock": 0.5,
+#             "eletronica": 0.5,
+#             "social": 0.5,
+#             "competitivo": 0.5
+#         })
+# arrumar()
 
-#TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por execute_commandmplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
-class Agent:  
-    def __init__(self):
-        self.Wm = WindowsManager() #criando o objeto que modifica o windows
+users = 1
+interacoes = 1
+i = 1
 
-        # criando condicionais para separação correta da frase
-        self.greet = ["ok senhor", "com certeza"]
-        self.conect = ("e", "depois", "em seguida")
-        self.ignore = ("o", "a")
+while i <= users:
+    print(f"=============================================")
+    user1 = DecisionEngine(user_profile)
+    print(f"user number {i}")
+    stop = interacoes
+    j = 1
 
-        #criando memoria e comandos
-        self.memory = {
-            "last_command" : None,
-            "last_app" : None,
-        }
-        self.context = {
-            "ele" : self.memory["last_app"]
+    while j <= stop:
+        action = user1.decide_action()
+        user1.learning(action, feedback=random.choice([-1, 1]))
+        print(action)
+        j += 1
 
-        }
-        self.commands = {
-        "abri" : self.open_app,
-        "abrir" : self.open_app,
-        "iniciar" : self.open_app,
-        "fechar" : self.close_app,
-        "mover" : self.move_item,
-        }
-
-    def open_app (self,target):
-        if not self.Wm.open_window(target):
-            return "Error"
-            self.memory["last_app"] = target
-    def close_app (self,target):
-        # self.Wm.close_window(target)
-        print (f"fechando {target}")
-    def move_item (self,target, local, new):
-        print (f"{target} movido de {local}, para {new}")
-
-
-    def execute_command(self,execute) -> None|str:
-        print(random.choice(self.greet))
-
-        if len(execute) < 1: # se args estiver vazio ele retorna 
-            return "Error"
-        
-        for i in execute: # exemple -> [('abrir', 'chrome'),('fechar', 'spotify')] -> i == ('abrir', 'chrome')
-            self.commands[i[0]](i[1]) #exemple -> self.commands['abrir']('chrome') -> open_app(target='chrome')
-        
-
-    def parser_input(self,cmd) -> list:
-        corrent_command = None
-        cmd = [i.replace(",", "") for i in cmd if i not in self.ignore]
-        list_commands = []
-
-        for i in cmd:
-            if i in self.commands: #* i é um comandos
-                corrent_command = i
-                continue
-            #* i é um conector
-            elif i in self.conect:
-                continue
-
-            else: #* i é um app
-                if corrent_command:
-                    list_commands.append((corrent_command, i))
-                else:
-                    continue
-                    
-
-
-        return  list_commands
-    
-
-agent = Agent()
-
-
-# user_input = input("oq vc gostaria de fazer? ")
-user_input = "abrir chrome"
-cmd = user_input.lower().split()
-
-agent.execute_command(agent.parser_input(cmd))
-# print(agent.parser_input(cmd))
+    print("=======================================")
+    arrumar()
+    i += 1

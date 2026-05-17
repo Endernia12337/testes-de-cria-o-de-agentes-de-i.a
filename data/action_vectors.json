@@ -1,0 +1,92 @@
+{
+    "estudar_python": {
+        "aprendizado": 1.0,
+        "entretenimento": 0.2,
+        "musica": 0.0,
+        "programacao": 0.9,
+        "fps": 0.0,
+        "estrategia": 0.4,
+        "rock": 0.0,
+        "eletronica": 0.0,
+        "social": 0.1,
+        "competitivo": 0.3
+    },
+
+    "programar_projeto": {
+        "aprendizado": 0.9,
+        "entretenimento": 0.5,
+        "musica": 0.0,
+        "programacao": 1.0,
+        "fps": 0.0,
+        "estrategia": 0.7,
+        "rock": 0.0,
+        "eletronica": 0.0,
+        "social": 0.2,
+        "competitivo": 0.5
+    },
+
+    "jogar_valorant": {
+        "aprendizado": 0.1,
+        "entretenimento": 1.0,
+        "musica": 0.0,
+        "programacao": 0.0,
+        "fps": 1.0,
+        "estrategia": 0.6,
+        "rock": 0.0,
+        "eletronica": 0.1,
+        "social": 0.7,
+        "competitivo": 1.0
+    },
+
+    "jogar_xadrez": {
+        "aprendizado": 0.5,
+        "entretenimento": 0.7,
+        "musica": 0.0,
+        "programacao": 0.0,
+        "fps": 0.0,
+        "estrategia": 1.0,
+        "rock": 0.0,
+        "eletronica": 0.0,
+        "social": 0.2,
+        "competitivo": 0.8
+    },
+
+    "escutar_rock": {
+        "aprendizado": 0.0,
+        "entretenimento": 0.8,
+        "musica": 1.0,
+        "programacao": 0.0,
+        "fps": 0.0,
+        "estrategia": 0.0,
+        "rock": 1.0,
+        "eletronica": 0.0,
+        "social": 0.3,
+        "competitivo": 0.0
+    },
+
+    "escutar_eletronica": {
+        "aprendizado": 0.0,
+        "entretenimento": 0.8,
+        "musica": 1.0,
+        "programacao": 0.0,
+        "fps": 0.0,
+        "estrategia": 0.0,
+        "rock": 0.0,
+        "eletronica": 1.0,
+        "social": 0.4,
+        "competitivo": 0.1
+    },
+
+    "assistir_youtube": {
+        "aprendizado": 0.3,
+        "entretenimento": 0.9,
+        "musica": 0.2,
+        "programacao": 0.2,
+        "fps": 0.2,
+        "estrategia": 0.2,
+        "rock": 0.1,
+        "eletronica": 0.1,
+        "social": 0.5,
+        "competitivo": 0.1
+    }
+}
