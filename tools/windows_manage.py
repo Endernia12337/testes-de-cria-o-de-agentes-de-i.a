@@ -1,6 +1,5 @@
 import win32gui
 from app_laucher import AppLaucher
-from erros import Erros
 
 class WindowsManager:
     """
@@ -33,7 +32,7 @@ class WindowsManager:
         win32gui.EnumWindows(self._windows_update,None)
         return self.windows
     
-    def open_window(self, program : str) -> None:
+    def open_window(self, program : str) -> bool:
         """
         **ARGS****
             `program`  name of window or program to be open
