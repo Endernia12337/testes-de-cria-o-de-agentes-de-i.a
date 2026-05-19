@@ -1,4 +1,4 @@
-from .BrainError import ActionTrackerError, LearningError
+from .BrainError import ActionTrackerError, LearningError,InvalidActionError
 
 from memory.MemorySystem import MemorySystem
 from memory.ActionTracker import ActionTracker
@@ -14,11 +14,31 @@ class LearningBrain:
         self.tracker = ActionTracker()
 
 
-    def learning_by_feedback(self, action_name: str, feedback: int, learning_rate=0.5, decay=True, decay_rate=0.02):
+    def learning_by_feedback(self, action_name: str, feedback: float, learning_rate=0.5, decay=True, decay_rate=0.02):
         if not decay:
             decay_rate = 0.0
+        
+        if not isinstance(feedback, (int, float)):
+            raise TypeError("feedback must be int or float")
 
-        action_vector = self.actions_vectors[action_name]
+        if not isinstance(learning_rate, (int, float)):
+            raise TypeError("learning_rate must be int or float")
+
+        if not isinstance(decay_rate, (int, float)):
+            raise TypeError("decay_rate must be int or float")
+
+        if not isinstance(decay, bool):
+            raise TypeError("decay must be bool")
+        
+        try:
+            action_vector = self.actions_vectors[action_name]
+
+        except KeyError:
+            raise InvalidActionError(
+                action_name,
+                "learning_by_feedback"
+            )
+
         try:
             count = self.tracker.get_count(action_name)
         except  ActionTrackerError as e:
@@ -27,8 +47,13 @@ class LearningBrain:
         penality = count/100 
         if penality <= 0.02:
             penality = 0.03
+
+        learning_rate = max(0.0, min(1.0, learning_rate))
+        learning_rate = max(0.0, min(1.0, learning_rate))
+        feedback = max(-1.0, min(1.0, feedback))
             
-        decay_rate = decay_rate - count/100
+        decay_rate = decay_rate - penality
+
         for dimension in self.dimensions:
             try:
                 current_value = self.user_profile[dimension]

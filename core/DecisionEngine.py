@@ -33,3 +33,6 @@ class DecisionEngine:
         except LearningError as e:
             print(e)
             return
+        except TypeError as e:
+            print(e)
+            return

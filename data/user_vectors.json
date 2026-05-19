@@ -1,12 +1,12 @@
 {
-    "aprendizado": 0.91,
-    "entretenimento": 1.0,
-    "musica": 1.0,
-    "programacao": 1.0,
-    "fps": 1.0,
-    "estrategia": 1.0,
-    "rock": 1.0,
-    "eletronica": 1.0,
-    "social": 1.0,
-    "competitivo": 1.0
+    "aprendizado": 0.5,
+    "entretenimento": 0.5,
+    "musica": 0.5,
+    "programacao": 0.5,
+    "fps": 0.5,
+    "estrategia": 0.5,
+    "rock": 0.5,
+    "eletronica": 0.5,
+    "social": 0.5,
+    "competitivo": 0.5
 }
