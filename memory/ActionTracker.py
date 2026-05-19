@@ -1,5 +1,6 @@
 from memory.MemorySystem import MemorySystem
 from brain.BrainError import InvalidActionError,MemoryError,ActionTrackerError,ValidationError
+
 class ActionTracker:
     def __init__(self) -> None:
         self.count_file = r"data/action_counts.json" # ela define pois esses arquivos são usados so por ela, se eu senti necessario depois programo outra forma dela acessar 
