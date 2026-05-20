@@ -26,9 +26,5 @@ git push
 
 *apartir daqui pode apagar* -> lembrar
 
-ENDERNIA: arrumei o erro no parser, mas ele so retorna 1 argumento por comando, vai dar erro em funções com multiplos comandos por exemplo a move_item().
-Pensei em por enquanto a gente so passar 1 argumento, ai a função pega esse argumento (exemplo: target) e depois pergunta : ("mover de onde?") resposta -> "pasta1" ;  em seguida ("para onde") resposta "pasta2"
-ou so passar isso em uma unica resposta : ("mover de onde para onde?") resposta -> "pasta1 pasta2".
 
-ENDERNIA: arrumei o erro que quando o user passava por exemplo (chrome) em vez de quebrar ele respode que nn foi encontrado nenhum argumento
 

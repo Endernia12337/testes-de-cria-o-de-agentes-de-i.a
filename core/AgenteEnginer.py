@@ -1,7 +1,6 @@
 import random
 from tools.windows_manage import WindowsManager
 
-#TODO fazer uma classe onde os metodos são  todos os possiveis erros que nn são nativos do python, por execute_commandmplo que o agente não conseguiu encontrar a função escolhida pelo usuario. e implementar-la onde precisar
 class AgentEnginer:  
     def __init__(self):
         self.Wm = WindowsManager() #criando o objeto que modifica o windows
@@ -30,10 +29,11 @@ class AgentEnginer:
 
     def open_app (self,target):
         if not self.Wm.open_window(target):
-            return "Error"
             self.memory["last_app"] = target
+            return "Error"
     def close_app (self,target):
-        # self.Wm.close_window(target)
+        self.Wm.close_window(target)
+        self.memory["last_app"] = target
         print (f"fechando {target}")
     def move_item (self,target, local, new):
         print (f"{target} movido de {local}, para {new}")
@@ -72,14 +72,3 @@ class AgentEnginer:
 
         return  list_commands
     
-
-if __name__ == '__main__':
-    agent = AgentEnginer()
-
-
-    # user_input = input("oq vc gostaria de fazer? ")
-    user_input = "abrir chrome"
-    cmd = user_input.lower().split()
-
-    agent.execute_command(agent.parser_input(cmd))
-    # print(agent.parser_input(cmd))
